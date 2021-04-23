@@ -50,6 +50,15 @@ const users = () =>{
     // return mongoose.model("user1", UserSchema)
 }
 
+const userSession = () => {
+    var UserSchema = new Schema({
+        token: { type: String, required: true },
+        updatedAt: { type: Date, required: true }
+    })
+
+    return mongoose.model("user_sessions", UserSchema)
+}
+
 function get_max_id (){
     var a = new Date().valueOf() + "";
     var b=  a.slice((a.length-1-7),(a.length-1));
@@ -58,4 +67,5 @@ function get_max_id (){
 
 module.exports  = {
     adminUser : users(),
+    userSession : userSession()
 }
