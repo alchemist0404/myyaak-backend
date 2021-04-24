@@ -1,5 +1,6 @@
 const BASECONTROL = require("../../controller/basecontroller");
-const mongoose = require("mongoose")
+const SESSION_MODEL = require("../../models/users_model").userSession;
+const axios = require("axios");
 
 const auth = {
     
@@ -7,7 +8,48 @@ const auth = {
     // unauthorized route
     isLoggedIn: async (req, res, next)=> {
         // try{
-            console.log(`req.headers`, req.headers)
+            const { token } = JSON.parse(req.headers.user);
+            const loginInfo = JSON.parse(req.headers.login);
+            const expireTime = 3600 * 1000;
+
+            var session = await BASECONTROL.BfindOne(SESSION_MODEL, { token: token.session_token });
+            console.log(`session`, session)
+            if (session.updatedAt.valueOf() + expireTime < Date.now().valueOf()) {
+                return res.json({
+                    session: true
+                })
+            } else {
+                BASECONTROL.BfindOneAndUpdate(SESSION_MODEL, { token: token.session_token }, { updatedAt: Date.now() })
+                
+                await axios({
+                    url: "https://myyaak.com/restful_api/user/mine",
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + session.apiToken.access_token
+                    }
+                }).catch(async (error) => {
+                    console.log(`error.response`, error.response)
+                    if (error.response.data == 'invalid_token') {
+                        axios({
+                            url: "https://myyaak.com/restful_api/token",
+                            method: "POST",
+                            data: {
+                                ...loginInfo,
+                                grant_type:"password"
+                            },
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Basic bW9iaWxlYXBpOjczOGFiNWI4M2M5MDJhN2I4MTg2MGUwNTgxMWZkNWNkNjVlOTVmNzI="
+                            }
+                        }).then(async (response) => {
+                            await BASECONTROL.BfindOneAndUpdate(SESSION_MODEL, { token: token.session_token }, { apiToken: response.data })
+                        })
+                    }
+                })
+                next()
+            }
+
         // } catch(e) {
         //     return res.json({session : true});
         // }

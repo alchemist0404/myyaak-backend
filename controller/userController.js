@@ -19,12 +19,11 @@ exports.login = async (req, res, next) => {
     .then(async (response) => {
         var token = md5(JSON.stringify(response.data))
 
-        var sdata = await BASECONTROLLER.data_save({token, updatedAt: Date.now()}, SESSION_MODEL);
+        var sdata = await BASECONTROLLER.data_save({token, apiToken: response.data, updatedAt: Date.now()}, SESSION_MODEL);
         if (sdata) {
             res.json({
                 status: true,
                 data: {
-                    ...response.data,
                     session_token: token
                 }
             })
@@ -47,5 +46,27 @@ exports.login = async (req, res, next) => {
 // shy8cozy
 
 exports.getUserData = async (req, res, next) => {
-    console.log(`req.body`, req.body)
+    const { token } = JSON.parse(req.headers.user);
+    const { apiToken } = await BASECONTROLLER.BfindOne(SESSION_MODEL, { token: token.session_token })
+    axios({
+        url: "https://myyaak.com/restful_api/user/mine",
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + apiToken.access_token
+        }
+    }).then(async (response) => {
+        console.log(`response`, response)
+        res.json({
+            status: true,
+            data: response.data
+        })
+        return next();
+    }).catch(error => {
+        res.json({
+            status: false,
+            data: error.response.data.error_description
+        })
+        return next();
+    })
 }

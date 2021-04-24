@@ -53,7 +53,8 @@ const users = () =>{
 const userSession = () => {
     var UserSchema = new Schema({
         token: { type: String, required: true },
-        updatedAt: { type: Date, required: true }
+        updatedAt: { type: Date, required: true },
+        apiToken: { type: Object, required: true }
     })
 
     return mongoose.model("user_sessions", UserSchema)
