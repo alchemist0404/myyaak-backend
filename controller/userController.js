@@ -2,6 +2,7 @@ const BASECONTROLLER = require("./basecontroller");
 const axios = require("axios");
 const md5 = require("md5");
 const SESSION_MODEL = require("../models/users_model").userSession;
+const USER_MODEL = require("../models/users_model").adminUser;
 
 exports.login = async (req, res, next) => {
     axios({
@@ -56,7 +57,6 @@ exports.getUserData = async (req, res, next) => {
             "Authorization": "Bearer " + apiToken.access_token
         }
     }).then(async (response) => {
-        console.log(`response`, response)
         res.json({
             status: true,
             data: response.data
@@ -69,4 +69,29 @@ exports.getUserData = async (req, res, next) => {
         })
         return next();
     })
+}
+
+exports.adminLogin = async (req, res, next) => {
+    const { email, password } = req.body
+    var vdata = await BASECONTROLLER.BfindOne(USER_MODEL, { email, password: md5(password) })
+    if (vdata) {
+        var udata = await BASECONTROLLER.BfindOne(USER_MODEL, { email })
+        if (udata) {
+            res.json({
+                status: true,
+                data: udata
+            })
+        } else {
+            res.json({
+                status: false,
+                data: "Server Error! Please try again later."
+            })
+        }
+    } else {
+        res.json({
+            status: false,
+            data: "Email or password is invalid!"
+        })
+        return next()
+    }
 }

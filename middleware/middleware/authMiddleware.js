@@ -13,7 +13,6 @@ const auth = {
             const expireTime = 3600 * 1000;
 
             var session = await BASECONTROL.BfindOne(SESSION_MODEL, { token: token.session_token });
-            console.log(`session`, session)
             if (session.updatedAt.valueOf() + expireTime < Date.now().valueOf()) {
                 return res.json({
                     session: true

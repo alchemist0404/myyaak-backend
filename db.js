@@ -1,5 +1,5 @@
 module.exports = {
-    "BASEURL" : __dirname+"/clients/uploads/",
+    "BASEURL" : __dirname+"/upload/",
     "APPURL" : __dirname+"/clients/apps/",
     "DIR" : __dirname,
     "ADMINPASSMETHOD" : "admin",

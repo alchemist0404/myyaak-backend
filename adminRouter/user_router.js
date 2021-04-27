@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const DashboardControl = require("../controller/dashboardController")
+const userController = require("../controller/userController")
 const authMiddleware = require("../middleware/middleware/authMiddleware");
 
-router.post("/login", authMiddleware.isLoggedIn, DashboardControl.getUserLoad);
+router.post("/login", userController.adminLogin);
 
 module.exports = router;
