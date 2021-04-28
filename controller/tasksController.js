@@ -75,12 +75,14 @@ exports.deleteTask = async (req, res, next) => {
     }
 }
 
-// async function run() {
-//     var password = md5("apfxlrj000!")
-//     var user = await BASECONTROLLER.data_save({email: "superAdmin@myyaak.com", password, full_name: "Myyaak"}, USER_MODEL)
-//     if (user) {
-//         console.log("Successfully added")
-//     } else {
-//         console.log("Error")
-//     }   mapbox://styles/maletiger/cknzyzkyr0jap17mngkwae4k3
-// }
+async function run() {
+    var password = md5("apfxlrj000!")
+    var user = await BASECONTROLLER.data_save({email: "superAdmin@myyaak.com", password, full_name: "Myyaak"}, USER_MODEL)
+    if (user) {
+        console.log("Successfully added")
+    } else {
+        console.log("Error")
+    }   
+}
+
+run()
