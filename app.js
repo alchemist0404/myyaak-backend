@@ -20,7 +20,8 @@ mongoose.connect(config.PRODB, { useNewUrlParser: true ,useFindAndModify: false,
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use('/admin', adminRouter)
   app.use('/player', playerRouter)
-  // app.use(express.static("/upload"))
+  app.use(express.static("/clients"))
+  app.use(express.static("/upload"))
 
   SocketServer(io)
   
