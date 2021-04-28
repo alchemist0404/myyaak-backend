@@ -11,7 +11,7 @@ const adminRouter = require("./adminRouter")
 const playerRouter = require("./playerRouter")
 const path = require("path")
 
-mongoose.connect(config.TESTDB, { useNewUrlParser: true ,useFindAndModify: false,useUnifiedTopology: true,useCreateIndex : true}).then(() => {
+mongoose.connect(config.PRODB, { useNewUrlParser: true ,useFindAndModify: false,useUnifiedTopology: true,useCreateIndex : true}).then(() => {
   console.log('Database is connected')
 
   app.use(cors())
