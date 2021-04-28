@@ -283,3 +283,16 @@ exports.array_sort = (data,handle) =>{
 	}
 	return rows;
 }
+
+exports.validTaskFileType = (file) => {
+	console.log(`file`, file)
+	const mimeType = file.mimetype.split("/")[0]
+    const fileType = file.filename.split(".")[1];
+	if (mimeType == "image" || mimeType == "video") {
+		return true;
+	} else if (fileType == ".obj" || fileType == ".fbx" || fileType == ".gltf" || fileType == ".dae") {
+		return true;
+	} else {
+		return false;
+	}
+}

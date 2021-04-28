@@ -6,6 +6,12 @@ const fs = require("fs")
 const md5 = require("md5")
 
 exports.add = async (req, res, next) => {
+    if (!BASECONTROLLER.validTaskFileType(req.files[0])) {
+        return res.json({
+            status: false,
+            data: "Invalid file type! Please upload only video or image or 3D models."
+        })
+    }
     const position = JSON.parse(req.body.position)
 
     var cdata = await BASECONTROLLER.BfindOne(TASKS_MODEL, {"task_position.lat": position.lat, "task_position.lng": position.lng})
@@ -52,7 +58,7 @@ exports.deleteTask = async (req, res, next) => {
     if (file) {
         fs.unlink(BASEURL + file.task_file, (err) => {
             if (err) {
-                throw err
+                console.log(`err`, err)
             }
         })
     }
@@ -76,5 +82,5 @@ exports.deleteTask = async (req, res, next) => {
 //         console.log("Successfully added")
 //     } else {
 //         console.log("Error")
-//     }
+//     }   mapbox://styles/maletiger/cknzyzkyr0jap17mngkwae4k3
 // }

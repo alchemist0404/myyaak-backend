@@ -5,6 +5,8 @@ const cors = require('cors')
 const config = require('./db')
 const app = express()
 const server = require("http").Server(app)
+const io = require("socket.io").listen(server);
+const SocketServer = require("./socket");
 const adminRouter = require("./adminRouter")
 const playerRouter = require("./playerRouter")
 const path = require("path")
@@ -19,10 +21,12 @@ mongoose.connect(config.TESTDB, { useNewUrlParser: true ,useFindAndModify: false
   app.use('/admin', adminRouter)
   app.use('/player', playerRouter)
   // app.use(express.static("/upload"))
+
+  SocketServer(io)
   
-  // app.get('*', (req, res) => {
-  //   res.sendFile(path.join(config.DIR, 'clients/index.html'))  
-  // })
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(config.DIR, 'clients/index.html'))
+  })
 
   server.listen(config.ServerPort, () => {
     console.log(`Started server on => http://localhost:${config.ServerPort}`)
