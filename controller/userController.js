@@ -19,7 +19,7 @@ exports.login = async (req, res, next) => {
         }
     })
     .then(async (response) => {
-        var token = md5(JSON.stringify(response.data))
+        var token = md5(Date.now())
 
         var sdata = await BASECONTROLLER.data_save({token, apiToken: response.data, updatedAt: Date.now()}, SESSION_MODEL)
         if (sdata) {
@@ -74,13 +74,17 @@ exports.getUserData = async (req, res, next) => {
 
 exports.adminLogin = async (req, res, next) => {
     const { email, password } = req.body
-    var vdata = await BASECONTROLLER.BfindOne(USER_MODEL, { email, password: md5(password) })
+    const vdata = await BASECONTROLLER.BfindOne(USER_MODEL, { email, password: md5(password) })
     if (vdata) {
-        var udata = await BASECONTROLLER.BfindOne(USER_MODEL, { email })
-        if (udata) {
+        var token = md5(Date.now())
+        const tdata = await BASECONTROLLER.data_save({token, apiToken: {}, updatedAt: Date.now()}, SESSION_MODEL)
+        if (tdata) {
             res.json({
                 status: true,
-                data: udata
+                data: {
+                    ...vdata,
+                    token
+                }
             })
         } else {
             res.json({

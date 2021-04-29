@@ -17,17 +17,17 @@ mongoose.connect(DBURL, { useNewUrlParser: true ,useFindAndModify: false,useUnif
   console.log('Database is connected')
 
   app.use(cors())
-
+  
+  app.use(express.static("./clients"))
+  app.use(express.static("./upload"))
   app.use(bodyParser.json({limit: "15360mb", type:'application/json'}))
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use('/admin', adminRouter)
   app.use('/player', playerRouter)
-  app.use(express.static("./clients"))
-  app.use(express.static("./upload"))
 
   SocketServer(io)
   
-  app.get('*', (req, res) => {
+  app.get('/', (req, res) => {
     res.sendFile(path.join(config.DIR, 'clients/index.html'))
   })
 

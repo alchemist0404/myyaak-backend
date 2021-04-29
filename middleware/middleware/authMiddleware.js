@@ -7,13 +7,14 @@ const auth = {
     // checks if the user is logged in, if not, redirect to the 
     // unauthorized route
     isLoggedIn: async (req, res, next)=> {
-        // try{
+        try{
             const { token } = JSON.parse(req.headers.user);
             const loginInfo = JSON.parse(req.headers.login);
             const expireTime = 3600 * 1000;
 
             var session = await BASECONTROL.BfindOne(SESSION_MODEL, { token: token.session_token });
             if (session.updatedAt.valueOf() + expireTime < Date.now().valueOf()) {
+                BASECONTROL.BfindOneAndDelete(SESSION_MODEL, { token: token.session_token })
                 return res.json({
                     session: true
                 })
@@ -48,11 +49,31 @@ const auth = {
                 })
                 next()
             }
-
-        // } catch(e) {
-        //     return res.json({session : true});
-        // }
+        } catch(e) {
+            return res.json({session : true});
+        }
     },
+    isAdminLoggedIn: async (req, res, next) => {
+        try {
+            const { token } = JSON.parse(req.headers.user);
+            // const expireTime = 3600 * 1000;
+
+            var session = await BASECONTROL.BfindOne(SESSION_MODEL, { token });
+            if (session.updatedAt.valueOf() + expireTime < Date.now().valueOf()) {
+                BASECONTROL.BfindOneAndDelete(SESSION_MODEL, { token })
+                return res.status(401).json({
+                    session: true
+                })
+            } else {
+                BASECONTROL.BfindOneAndUpdate(SESSION_MODEL, { token }, { updatedAt: Date.now() })
+                next()
+            }
+        } catch (e) {
+            return res.status(401).json({
+                session: true
+            })
+        }
+    }
 }
 
 module.exports = auth;
