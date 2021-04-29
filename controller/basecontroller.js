@@ -290,9 +290,9 @@ exports.validTaskFileType = (file) => {
     const fileType = file.filename.split(".")[1];
 	if (mimeType == "image" || mimeType == "video") {
 		return true;
-	} else if (fileType == ".obj" || fileType == ".fbx" || fileType == ".gltf" || fileType == ".dae") {
-		return true;
-	} else {
-		return false;
 	}
+	if (fileType == "obj" || fileType == "fbx" || fileType == "gltf" || fileType == "dae") {
+		return true;
+	}
+	return false;
 }
