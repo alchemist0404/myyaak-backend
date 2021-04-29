@@ -56,7 +56,7 @@ const auth = {
     isAdminLoggedIn: async (req, res, next) => {
         try {
             const { token } = JSON.parse(req.headers.user);
-            // const expireTime = 3600 * 1000;
+            const expireTime = 3600 * 1000;
 
             var session = await BASECONTROL.BfindOne(SESSION_MODEL, { token });
             if (session.updatedAt.valueOf() + expireTime < Date.now().valueOf()) {
