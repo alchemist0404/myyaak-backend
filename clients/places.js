@@ -83,7 +83,43 @@ function renderPlaces(places) {
                 window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
             })
             
-            entity.setAttribute('collada-model', `${serverURL}${place.task_file}`)
+            entity.setAttribute('collada-model', `url(${serverURL}${place.task_file})`)
+
+            scene.appendChild(entity)
+        }
+        if (file_type == "fbx") {
+            var entity = document.createElement("a-entity")
+            entity.setAttribute('id', place._id)
+            entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            entity.addEventListener('loadeddata', ()=>{
+                window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+            })
+            
+            entity.setAttribute('fbx-model', `src: url(${serverURL}${place.task_file})`)
+
+            scene.appendChild(entity)
+        }
+        if (file_type == "obj") {
+            var entity = document.createElement("a-entity")
+            entity.setAttribute('id', place._id)
+            entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            entity.addEventListener('loadeddata', ()=>{
+                window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+            })
+            
+            entity.setAttribute('obj-model', `obj: url(${serverURL}${place.task_file});`)
+
+            scene.appendChild(entity)
+        }
+        if (file_type == "gltf") {
+            var entity = document.createElement("a-entity")
+            entity.setAttribute('id', place._id)
+            entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            entity.addEventListener('loadeddata', ()=>{
+                window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+            })
+            
+            entity.setAttribute('gltf-model', `url(${serverURL}${place.task_file})`)
 
             scene.appendChild(entity)
         }
