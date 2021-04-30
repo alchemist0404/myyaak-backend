@@ -1,5 +1,5 @@
-const serverURL = "http://localhost:20127/"
-// const serverURL = "https://vr.myyaak.com/"
+// const serverURL = "http://localhost:20127/"
+const serverURL = "https://vr.myyaak.com/"
 
 window.onload = async () => {
     let places = await loadPlaces();
