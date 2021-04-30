@@ -6,7 +6,8 @@ const fs = require("fs")
 const md5 = require("md5")
 
 exports.add = async (req, res, next) => {
-    if (!BASECONTROLLER.validTaskFileType(req.files[0])) {
+    var fileType = BASECONTROLLER.validTaskFileType(req.files[0]);
+    if (!fileType) {
         return res.json({
             status: false,
             data: "Invalid file type! Please upload only video or image or 3D models."
@@ -22,7 +23,7 @@ exports.add = async (req, res, next) => {
         })
         return next()
     } else {
-        var sdata = await BASECONTROLLER.data_save({task_name: req.body.taskName, task_position: position, task_file: req.files[0].filename}, TASKS_MODEL)
+        var sdata = await BASECONTROLLER.data_save({task_name: req.body.taskName, task_position: position, task_file: req.files[0].filename, file_type: fileType}, TASKS_MODEL)
         if (sdata) {
             this.getTasks(req, res, next)
         } else {

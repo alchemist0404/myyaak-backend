@@ -11,13 +11,16 @@
         THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
 </head>
 
 <script>
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const token = urlParams.get("token")
-    if (token == null) {
+    const session_token = urlParams.get("session_token")
+    const username = urlParams.get("username")
+    const password = urlParams.get("password")
+    if (session_token == null || username == null || password == null) {
         window.location.href = "./not-authrized.html"
     }
 </script>

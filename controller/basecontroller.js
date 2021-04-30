@@ -289,10 +289,10 @@ exports.validTaskFileType = (file) => {
 	const mimeType = file.mimetype.split("/")[0]
     const fileType = file.filename.split(".")[1];
 	if (mimeType == "image" || mimeType == "video") {
-		return true;
+		return mimeType;
 	}
 	if (fileType == "obj" || fileType == "fbx" || fileType == "gltf" || fileType == "dae") {
-		return true;
+		return fileType;
 	}
 	return false;
 }
