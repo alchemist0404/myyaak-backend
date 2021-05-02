@@ -16,7 +16,7 @@ async function successCallback(position) {
             'User': JSON.stringify({token: { session_token }}),
             'LogIn': JSON.stringify({username, password})
         },
-        body: JSON.stringify(position.coords)
+        body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
     })
     const resultData = await response.json();
     console.log(`resultData`, resultData)
