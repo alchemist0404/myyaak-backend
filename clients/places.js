@@ -8,6 +8,7 @@ window.onload = async () => {
 };
 
 async function successCallback(position) {
+    console.log(`position`, position)
     const response = await fetch(`${serverURL}player/tasks/getPosition`, {
         method: 'POST',
         headers: {
@@ -37,7 +38,6 @@ async function loadPlaces() {
         }
     })
     const resultData = await response.json()
-    console.log(`resultData`, resultData)
     if (resultData.session) {
         window.location.href = "./not-authrized.html"
     }
