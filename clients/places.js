@@ -9,7 +9,7 @@ window.onload = async () => {
 
 async function successCallback(position) {
     console.log(`position`, position)
-    setInterval(() => {
+    setInterval(async () => {
         const response = await fetch(`${serverURL}player/tasks/getPosition`, {
             method: 'POST',
             headers: {
