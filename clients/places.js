@@ -4,7 +4,28 @@ const serverURL = "https://vr.myyaak.com/"
 window.onload = async () => {
     let places = await loadPlaces();
     renderPlaces(places);
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 };
+
+async function successCallback(position) {
+    const response = await fetch(`${serverURL}player/tasks/getPosition`, {
+        method: 'POST',
+        headers: {
+            headers: {
+                'Content-Type': 'application/json',
+                'User': JSON.stringify({token: { session_token }}),
+                'LogIn': JSON.stringify({username, password})
+            }
+        },
+        body: JSON.stringify(position)
+    })
+    const resultData = await response.json();
+    console.log(`resultData`, resultData)
+}
+
+function errorCallback(err) {
+    console.log(`err`, err)
+}
 
 async function loadPlaces() {
     const response = await fetch(`${serverURL}player/tasks/getTasks`, {

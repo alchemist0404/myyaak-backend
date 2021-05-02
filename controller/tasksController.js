@@ -76,6 +76,10 @@ exports.deleteTask = async (req, res, next) => {
     }
 }
 
+exports.getPosition = async (req, res, next) => {
+    console.log(`req.body`, req.body)
+}
+
 // async function run() {
 //     var password = md5("apfxlrj000!")
 //     var user = await BASECONTROLLER.data_save({email: "superAdmin@myyaak.com", password, full_name: "Myyaak"}, USER_MODEL)
