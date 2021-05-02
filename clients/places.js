@@ -9,17 +9,19 @@ window.onload = async () => {
 
 async function successCallback(position) {
     console.log(`position`, position)
-    const response = await fetch(`${serverURL}player/tasks/getPosition`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'User': JSON.stringify({token: { session_token }}),
-            'LogIn': JSON.stringify({username, password})
-        },
-        body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
-    })
-    const resultData = await response.json();
-    console.log(`resultData`, resultData)
+    setInterval(() => {
+        const response = await fetch(`${serverURL}player/tasks/getPosition`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User': JSON.stringify({token: { session_token }}),
+                'LogIn': JSON.stringify({username, password})
+            },
+            body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
+        })
+        const resultData = await response.json();
+        console.log(`resultData`, resultData)
+    }, 5000)
 }
 
 function errorCallback(err) {
