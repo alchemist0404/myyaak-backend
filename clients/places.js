@@ -9,7 +9,7 @@ window.onload = async () => {
 
 async function successCallback(position) {
     console.log(`position`, position)
-    const response = await fetch(`${serverURL}player/tasks/getTasks`, {
+    const response = await fetch(`${serverURL}player/tasks/getPosition`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
