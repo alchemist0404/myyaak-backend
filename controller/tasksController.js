@@ -78,6 +78,10 @@ exports.deleteTask = async (req, res, next) => {
 
 exports.getPosition = async (req, res, next) => {
     console.log(`req.body`, req.body)
+    return res.json({
+        status: true,
+        data: req.body
+    })
 }
 
 // async function run() {
