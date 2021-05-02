@@ -20,7 +20,6 @@ async function successCallback(position) {
             body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
         })
         const resultData = await response.json();
-        alert(resultData)
         console.log(`resultData`, resultData)
     }, 5000)
 }
