@@ -3,7 +3,7 @@ const serverURL = "https://vr.myyaak.com/"
 
 window.onload = async () => {
     let places = await loadPlaces();
-    renderPlaces(places);
+    // renderPlaces(places);
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 };
 
@@ -22,6 +22,18 @@ async function successCallback(position) {
         const resultData = await response.json();
         console.log(`resultData`, resultData)
     }, 10000)
+    const scene = document.querySelector('a-scene');
+
+    const icon = document.createElement("a-image");
+    icon.setAttribute('id', "logo")
+    icon.setAttribute('gps-entity-place', `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`)
+    icon.setAttribute('name', "Task 1");
+    icon.setAttribute('src', `https://vr.myyaak.com/1619941921725.jpg`)
+    icon.setAttribute('scale', `20 20`)
+    icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+    icon.addEventListener('click', () => {alert("You found a logo!")});
+
+    scene.appendChild(icon);
 }
 
 function errorCallback(err) {
