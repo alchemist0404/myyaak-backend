@@ -4,36 +4,24 @@ const serverURL = "https://vr.myyaak.com/"
 window.onload = async () => {
     let places = await loadPlaces();
     // renderPlaces(places);
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+    setInterval(async () => {
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+    }, 10000)
 };
 
 async function successCallback(position) {
     console.log(`position`, position)
-    // setInterval(async () => {
-        const response = await fetch(`${serverURL}player/tasks/getPosition`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'User': JSON.stringify({token: { session_token }}),
-                'LogIn': JSON.stringify({username, password})
-            },
-            body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
-        })
-        const resultData = await response.json();
-        console.log(`resultData`, resultData)
-    // }, 10000)
-    const scene = document.querySelector('a-scene');
-
-    const icon = document.createElement("a-image");
-    icon.setAttribute('id', "logo")
-    icon.setAttribute('gps-entity-place', `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`)
-    icon.setAttribute('name', "Task 1");
-    icon.setAttribute('src', `https://vr.myyaak.com/1619941921725.jpg`)
-    icon.setAttribute('scale', `20 20`)
-    icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
-    icon.addEventListener('click', () => {alert("You found a logo!")});
-
-    scene.appendChild(icon);
+    const response = await fetch(`${serverURL}player/tasks/getPosition`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'User': JSON.stringify({token: { session_token }}),
+            'LogIn': JSON.stringify({username, password})
+        },
+        body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
+    })
+    const resultData = await response.json();
+    console.log(`resultData`, resultData)
 }
 
 function errorCallback(err) {
