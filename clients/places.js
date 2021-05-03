@@ -79,9 +79,7 @@ function renderPlaces(places) {
             icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
             icon.setAttribute('name', place.task_name);
             icon.setAttribute('src', `${serverURL}${place.task_file}`)
-            icon.setAttribute('scale', `20 20`)
-            icon.setAttribute('width', '0.5')
-            icon.setAttribute('height', '0.5')
+            icon.setAttribute('scale', `3 3`)
             icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
             icon.addEventListener('click', () => {alert("You found a logo!")});
 
