@@ -49,31 +49,41 @@ async function loadPlaces() {
 }
 
 function renderPlaces(places) {
-    let scene = document.querySelector('a-scene');
+    const scene = document.querySelector('a-scene');
 
     places.forEach((place) => {
         console.log(`place`, place)
         const { file_type } = place
-        let latitude = place.task_position.lat;
-        let longitude = place.task_position.lng;
+        const latitude = place.task_position.lat;
+        const longitude = place.task_position.lng;
 
         if (file_type == "image") {
-            var asset = document.createElement('a-assets');
-            asset.setAttribute('id', place._id)
-            asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-            asset.addEventListener('loadeddata', ()=>{
-                window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-            })
+            // var asset = document.createElement('a-assets');
+            // asset.setAttribute('id', place._id)
+            // asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            // asset.addEventListener('loadeddata', ()=>{
+            //     window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+            // })
             
-            var image = document.createElement('img');
-            image.setAttribute('src', `${serverURL}${place.task_file}`)
-            image.setAttribute('crossorigin', 'anonymous')
-            image.addEventListener('click', ()=> {
-                alert('Congratulations!')
-            })
+            // var image = document.createElement('img');
+            // image.setAttribute('src', `${serverURL}${place.task_file}`)
+            // image.setAttribute('crossorigin', 'anonymous')
+            // image.addEventListener('click', ()=> {
+            //     alert('Congratulations!')
+            // })
     
-            asset.appendChild(image)
-            scene.appendChild(asset);
+            // asset.appendChild(image)
+            // scene.appendChild(asset);
+            const icon = document.createElement("a-image");
+            icon.setAttribute('id', place._id)
+            icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            icon.setAttribute('name', place.task_name);
+            icon.setAttribute('src', `${serverURL}${place.task_file}`)
+            icon.setAttribute('scale', `20 20`)
+            icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+            icon.addEventListener('click', () => {alert("You found a logo!")});
+
+            scene.appendChild(icon);
         }
         if (file_type == "video") {
             var asset = document.createElement('a-assets');
