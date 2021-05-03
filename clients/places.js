@@ -9,7 +9,7 @@ window.onload = async () => {
 
 async function successCallback(position) {
     console.log(`position`, position)
-    setInterval(async () => {
+    // setInterval(async () => {
         const response = await fetch(`${serverURL}player/tasks/getPosition`, {
             method: 'POST',
             headers: {
@@ -21,7 +21,7 @@ async function successCallback(position) {
         })
         const resultData = await response.json();
         console.log(`resultData`, resultData)
-    }, 10000)
+    // }, 10000)
     const scene = document.querySelector('a-scene');
 
     const icon = document.createElement("a-image");
