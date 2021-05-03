@@ -3,7 +3,7 @@ const serverURL = "https://vr.myyaak.com/"
 
 window.onload = async () => {
     let places = await loadPlaces();
-    // renderPlaces(places);
+    renderPlaces(places);
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 };
 
@@ -21,7 +21,7 @@ async function successCallback(position) {
         })
         const resultData = await response.json();
         console.log(`resultData`, resultData)
-    }, 5000)
+    }, 10000)
 }
 
 function errorCallback(err) {
