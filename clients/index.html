@@ -26,12 +26,11 @@
 </script>
 
 <script src="./places.js"></script>
-<body style='margin: 0; overflow: hidden;' class="aframe-inspector-opened">
+<body style='margin: 0; overflow: hidden;'>
     <a-scene
         vr-mode-ui="enabled: false"
+		embedded
         arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
-        inspector
-        aframe-inspector-removed-embedded="undefined"
     >
         <a-camera gps-camera rotation-reader>
 		</a-camera>
