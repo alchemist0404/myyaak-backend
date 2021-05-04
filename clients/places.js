@@ -52,7 +52,7 @@ function renderPlaces(places) {
     const scene = document.querySelector('a-scene');
 
     places.forEach((place) => {
-        console.log(`place`, place)
+        // console.log(`place`, place)
         const { file_type } = place
         const latitude = place.task_position.lat;
         const longitude = place.task_position.lng;
