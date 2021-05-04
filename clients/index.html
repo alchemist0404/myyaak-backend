@@ -5,12 +5,11 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>myyaak</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
-    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-    <script>
-        THREEx.ArToolkitContext.baseURL = 'https://rawgit.com/jeromeetienne/ar.js/master/three.js/'
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
     <!-- <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script> -->
 </head>
 
@@ -25,14 +24,26 @@
     }
 </script>
 
-<script src="./places.js"></script>
-<body style='margin: 0; overflow: hidden;'>
+<!-- <script src="./places.js"></script> -->
+<body style="margin: 0; overflow: hidden;">
     <a-scene
-        vr-mode-ui="enabled: false"
-		embedded
-        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
+        embedded
+        loading-screen="enabled: false;"
+        arjs="sourceType: webcam; debugUIEnabled: false;"
     >
-        <a-camera gps-camera rotation-reader>
-		</a-camera>
-	</a-scene>
+            <a-image
+                src="https://vr.myyaak.com/1619999825071.png"
+                look-at="[gps-camera]"
+                scale="1 1 1"
+                gps-entity-place="latitude: -27.842083; longitude: 153.340375;"
+            ></a-image>
+            <a-image
+                src="https://vr.myyaak.com/1619999825071.png"
+                look-at="[gps-camera]"
+                scale="1 1 1"
+                gps-entity-place="latitude: -27.842055; longitude: 153.340504;"
+            ></a-image>
+
+        <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
 </body>
