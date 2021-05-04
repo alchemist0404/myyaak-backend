@@ -48,9 +48,6 @@ async function loadPlaces() {
 function renderPlaces(places) {
     const scene = document.querySelector('a-scene');
 
-    const asset = document.createElement('a-assets');
-    scene.appendChild(asset);
-    
     places.forEach((place) => {
         // console.log(`place`, place)
         const { file_type } = place
@@ -58,24 +55,31 @@ function renderPlaces(places) {
         const longitude = place.task_position.lng;
 
         if (file_type == "image") {
+            const asset = document.createElement('a-assets');
+            asset.setAttribute('look-at', `[gps-camera]`)
+            asset.setAttribute('scale', `0.5 0.5 0.5`)
+            asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            
             const image = document.createElement('img');
-            image.setAttribute('id', `${place._id}`)
             image.setAttribute('src', `${serverURL}${place.task_file}`)
             image.setAttribute('crossorigin', 'anonymous')
+            image.addEventListener('click', ()=> {
+                alert('Congratulations!')
+            })
     
             asset.appendChild(image)
+            scene.appendChild(asset);
+            // const icon = document.createElement("a-image");
+            // icon.setAttribute('src', `${serverURL}${place.task_file}`)
+            // icon.setAttribute('look-at', `[gps-camera]`)
+            // icon.setAttribute('scale', `1 1 1`)
+            // icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            // icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+            // icon.addEventListener('click', () => {
+            //     alert("You found a logo!")
+            // });
 
-            const icon = document.createElement("a-image");
-            icon.setAttribute('src', `#${place._id}`)
-            icon.setAttribute('look-at', `[gps-camera]`)
-            icon.setAttribute('scale', `1 1 1`)
-            icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-            icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
-            icon.addEventListener('click', () => {
-                alert("You found a logo!")
-            });
-
-            scene.appendChild(icon);
+            // scene.appendChild(icon);
         }
         // if (file_type == "video") {
         //     var asset = document.createElement('a-assets');
