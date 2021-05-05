@@ -28,6 +28,7 @@ async function loadPlaces() {
 
 function renderPlaces(places) {
     const scene = document.querySelector('a-scene');
+    console.log(`places`, places)
 
     places.forEach((place) => {
         const { file_type } = place
@@ -38,7 +39,8 @@ function renderPlaces(places) {
             // const asset = document.createElement('a-assets');
             // asset.setAttribute('look-at', `[gps-projected-camera]`)
             // asset.setAttribute('scale', `0.5 0.5 0.5`)
-            // asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
+            // asset.setAttribute('position', `0 20.1 0`)
+            // asset.setAttribute('gps-projected-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
             
             // const image = document.createElement('img');
             // image.setAttribute('src', `${serverURL}${place.task_file}`)
