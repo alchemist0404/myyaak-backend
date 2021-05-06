@@ -55,7 +55,7 @@ function renderPlaces(places) {
             icon.setAttribute('src', `${serverURL}${place.task_file}`)
             icon.setAttribute('look-at', `[gps-camera]`)
             icon.setAttribute('scale', `1 1 1`)
-            icon.setAttribute('position', `0 20.1 0`)
+            // icon.setAttribute('position', `0 20.1 0`)
             icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
             icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
             icon.addEventListener('click', () => {
