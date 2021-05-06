@@ -17,7 +17,7 @@
     if (session_token == null || username == null || password == null) {
         window.location.href = "./not-authrized.html"
     }
-    
+
     window.onload = async () => {
         setInterval(async () => {
             navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
@@ -25,6 +25,7 @@
     };
 
     async function successCallback(position) {
+        console.log(`position`, position)
         const response = await fetch(`${serverURL}player/tasks/getPosition`, {
             method: 'POST',
             headers: {
