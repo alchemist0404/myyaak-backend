@@ -14,17 +14,17 @@
       embedded
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
-      <a-box 
-		material="color: yellow"
-        scale="5 5 5"
-        gps-projected-entity-place="latitude: -27.842050; longitude: 153.340374; "
-      ></a-box>
-      <a-box 
-		material="color: red"
-        scale="5 5 5"
-        gps-projected-entity-place="latitude: -27.842050; longitude: 153.340374;"
-      ></a-box>
-      <a-camera gps-projected-camera rotation-reader> </a-camera>
+        <a-camera gps-camera-debug rotation-reader> </a-camera>
+        <a-box 
+            material="color: yellow"
+            scale="5 5 5"
+            gps-entity-place="latitude: -27.842050; longitude: 153.340374; "
+        ></a-box>
+        <a-box 
+            material="color: red"
+            scale="5 5 5"
+            gps-entity-place="latitude: -27.842050; longitude: 153.340374;"
+        ></a-box>
     </a-scene>
   </body>
 </html>
