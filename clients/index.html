@@ -8,6 +8,40 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
   </head>
 
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const session_token = urlParams.get("session_token")
+    const username = urlParams.get("username")
+    const password = urlParams.get("password")
+    if (session_token == null || username == null || password == null) {
+        window.location.href = "./not-authrized.html"
+    }
+    
+    window.onload = async () => {
+        setInterval(async () => {
+            navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+        }, 10000)
+    };
+
+    async function successCallback(position) {
+        const response = await fetch(`${serverURL}player/tasks/getPosition`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User': JSON.stringify({token: { session_token }}),
+                'LogIn': JSON.stringify({username, password})
+            },
+            body: JSON.stringify({lat: position.coords.latitude, lng: position.coords.longitude})
+        })
+    }
+
+    function errorCallback(err) {
+        console.log(`err`, err)
+    }
+
+</script>
+
   <body style="margin: 0; overflow: hidden;">
     <a-scene
       vr-mode-ui="enabled: false"
