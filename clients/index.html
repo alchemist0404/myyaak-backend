@@ -34,9 +34,9 @@
     <a-scene
         embedded
         vr-mode-ui="enabled: false"
-        arjs='sourceType: webcam; debugUIEnabled: false;'
+        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
         renderer='antialias: true; alpha: true'
     >
-        <a-camera gps-camera rotation-reader></a-camera>
+        <a-camera gps-camera='gpsMinDistance: 10' arjs-look-controls='smoothingFactor: 0.1' rotation-reader></a-camera>
     </a-scene>
 </body>
