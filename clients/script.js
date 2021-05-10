@@ -36,10 +36,10 @@ function main() {
     let orientationControls;
 
     orientationControls = new Arjs.DeviceOrientationControls(camera);
+    arjs.startGps();
     // if(get.m == 1 || get.m == 2) {
     // }
     // if(get.m == 2) {
-    //     arjs.startGps();
     // } else {
     //     arjs.fakeGps(-0.723, 51.049);
     // }
