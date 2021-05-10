@@ -19,19 +19,19 @@ function main() {
     arjs.add(new THREE.Mesh(geom, material2), 21.224832, 72.807892);
     arjs.add(new THREE.Mesh(geom, material3), 21.224587, 72.807902);
 
-    const get = { m : 0 };
-    const parts = window.location.href.split('?');
+    const get = { m : 2 };
+    // const parts = window.location.href.split('?');
 
-    if(parts.length==2) {
-        if(parts[1].endsWith('#')) { 
-            parts[1] = parts[1].slice(0, -1);
-        }
-        const params = parts[1].split('&');
-        for(let i=0; i<params.length; i++) {
-            const param = params[i].split('=');
-            get[param[0]] = param[1];
-        }
-    }
+    // if(parts.length==2) {
+    //     if(parts[1].endsWith('#')) { 
+    //         parts[1] = parts[1].slice(0, -1);
+    //     }
+    //     const params = parts[1].split('&');
+    //     for(let i=0; i<params.length; i++) {
+    //         const param = params[i].split('=');
+    //         get[param[0]] = param[1];
+    //     }
+    // }
 
     let orientationControls;
 
