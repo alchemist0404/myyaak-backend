@@ -13,11 +13,11 @@ function main() {
     const arjs = new Arjs.LocationBased(scene, camera);
     const cam = new Arjs.WebcamRenderer(renderer, '#video1');
 
-    arjs.add(mesh, 153.340524, -27.842060);
+    arjs.add(mesh, 72.807917, 21.224952);
     const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
     const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 153.340390, -27.842083 );
-    arjs.add(new THREE.Mesh(geom, material3), 153.340288, -27.842102 );
+    arjs.add(new THREE.Mesh(geom, material2), 21.224792, 72.807901 );
+    arjs.add(new THREE.Mesh(geom, material3), 21.224567, 72.808003 );
 
     // const get = { m : 2 };
     // const parts = window.location.href.split('?');
