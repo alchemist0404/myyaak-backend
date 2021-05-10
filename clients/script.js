@@ -19,7 +19,7 @@ function main() {
     arjs.add(new THREE.Mesh(geom, material2), 153.340390, -27.842083 );
     arjs.add(new THREE.Mesh(geom, material3), 153.340288, -27.842102 );
 
-    const get = { m : 2 };
+    // const get = { m : 2 };
     // const parts = window.location.href.split('?');
 
     // if(parts.length==2) {
@@ -35,14 +35,14 @@ function main() {
 
     let orientationControls;
 
-    if(get.m == 1 || get.m == 2) {
-        orientationControls = new Arjs.DeviceOrientationControls(camera);
-    }
-    if(get.m == 2) {
-        arjs.startGps();
-    } else {
-        arjs.fakeGps(-0.723, 51.049);
-    }
+    orientationControls = new Arjs.DeviceOrientationControls(camera);
+    // if(get.m == 1 || get.m == 2) {
+    // }
+    // if(get.m == 2) {
+    //     arjs.startGps();
+    // } else {
+    //     arjs.fakeGps(-0.723, 51.049);
+    // }
 
     function render(time) {
         resizeUpdate();
