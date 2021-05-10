@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>myyaak</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script> -->
+    <!-- <script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script> -->
+    <style>
+        .a-enter-vr{
+            display: none !important;
+        }
+    </style>
+</head>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const session_token = urlParams.get("session_token")
+    const username = urlParams.get("username")
+    const password = urlParams.get("password")
+    if (session_token == null || username == null || password == null) {
+        window.location.href = "./not-authrized.html"
+    }
+</script>
+
+<script src="./places.js"></script>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene
+        vr-mode-ui="enabled: false"
+        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
+        renderer='antialias: true; alpha: true'
+    >
+        <a-camera gps-camera look-controls-enabled='false' arjs-look-controls='smoothingFactor: 0.1' rotation-reader reverse-mouse-drag></a-camera>
+    </a-scene>
+</body>
