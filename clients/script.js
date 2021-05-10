@@ -1,7 +1,8 @@
 import * as Arjs from './js/arjs.js';
 import * as THREE from './three.module.js';
+const serverURL = "https://vr.myyaak.com/"
 
-function main() {
+async function main() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(80, 2, 0.1, 50000);
     const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#canvas1') });
@@ -13,11 +14,33 @@ function main() {
     const arjs = new Arjs.LocationBased(scene, camera);
     const cam = new Arjs.WebcamRenderer(renderer, '#video1');
 
-    arjs.add(mesh, 72.808090, 21.224517);
-    const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
-    const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 72.807892, 21.224832 );
-    arjs.add(new THREE.Mesh(geom, material3), 72.807902, 21.224587 );
+    const response = await fetch(`${serverURL}player/tasks/getTasks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'User': JSON.stringify({token: { session_token }}),
+            'LogIn': JSON.stringify({username, password})
+        }
+    })
+
+    const resultData = await response.json()
+    if (resultData.session) {
+        window.location.href = "./not-authrized.html"
+    }
+    if (resultData.status == true) {
+        resultData.data.fotEach((place) => {
+            const { file_type } = place
+            const latitude = place.task_position.lat;
+            const longitude = place.task_position.lng;
+
+            arjs.add(mesh, longitude, latitude);
+        })
+        // const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
+        // const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+        // arjs.add(new THREE.Mesh(geom, material2), 72.807892, 21.224832 );
+        // arjs.add(new THREE.Mesh(geom, material3), 72.807902, 21.224587 );
+    }
+
 
     const get = { m : 2 };
     // const parts = window.location.href.split('?');
