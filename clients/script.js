@@ -26,7 +26,7 @@ async function main() {
     const resultData = await response.json()
     console.log(`resultData`, resultData)
     if (resultData.session) {
-        // window.location.href = "./not-authrized.html"
+        window.location.href = "./not-authrized.html"
     }
     if (resultData.status == true) {
         resultData.data.fotEach((place) => {
