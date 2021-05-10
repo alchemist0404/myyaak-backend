@@ -28,15 +28,15 @@ async function main() {
     if (resultData.session) {
         window.location.href = "./not-authrized.html"
     }
-    if (resultData.status == true) {
-        resultData.data.fotEach((place) => {
-            const { file_type } = place
-            const latitude = place.task_position.lat;
-            const longitude = place.task_position.lng;
+    // if (resultData.status == true) {
+    //     resultData.data.fotEach((place) => {
+    //         const { file_type } = place
+    //         const latitude = place.task_position.lat;
+    //         const longitude = place.task_position.lng;
 
-            arjs.add(mesh, longitude, latitude);
-        })
-    }
+    //         arjs.add(mesh, longitude, latitude);
+    //     })
+    // }
     const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
     const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
     arjs.add(new THREE.Mesh(geom, material2), 72.807892, 21.224832 );
