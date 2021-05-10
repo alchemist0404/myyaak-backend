@@ -16,8 +16,10 @@ function main() {
     arjs.add(mesh, -0.72, 51.05);
     const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
     const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), -0.7249, 51.0492);
-    arjs.add(new THREE.Mesh(geom, material3), -0.7210, 51.0509);
+    const material4 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    arjs.add(new THREE.Mesh(geom, material2), 21.224757, 72.807897);
+    arjs.add(new THREE.Mesh(geom, material3), 21.224652, 72.807913);
+    arjs.add(new THREE.Mesh(geom, material4), 21.225007, 72.807886);
 
     const get = { m : 0 };
     const parts = window.location.href.split('?');
