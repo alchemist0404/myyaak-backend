@@ -16,8 +16,8 @@ function main() {
     arjs.add(mesh, -0.72, 51.05);
     const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
     const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 21.224832, 72.807892);
-    arjs.add(new THREE.Mesh(geom, material3), 21.224587, 72.807902);
+    arjs.add(new THREE.Mesh(geom, material2), 72.807892, 21.224832 );
+    arjs.add(new THREE.Mesh(geom, material3), 72.807902, 21.224587 );
 
     const get = { m : 2 };
     // const parts = window.location.href.split('?');
