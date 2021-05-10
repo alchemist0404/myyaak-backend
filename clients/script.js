@@ -1,5 +1,5 @@
 import * as Arjs from './js/arjs.js';
-import * as THREE from 'three/build/three.module.js';
+import * as THREE from './three.module.js';
 
 function main() {
     const scene = new THREE.Scene();
