@@ -27,7 +27,7 @@ async function main() {
         window.location.href = "./not-authrized.html"
     }
     if (resultData.status == true) {
-        resultData.data.fotEach((place) => {
+        resultData.data.forEach((place) => {
             const { file_type } = place
             const latitude = place.task_position.lat;
             const longitude = place.task_position.lng;
@@ -38,10 +38,10 @@ async function main() {
             arjs.add(mesh, longitude, latitude);
         })
     }
-    const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
-    const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 153.340407, -27.842088 );
-    arjs.add(new THREE.Mesh(geom, material3), 153.340262, -27.842098 );
+    // const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    // const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    // arjs.add(new THREE.Mesh(geom, material2), 153.340407, -27.842088 );
+    // arjs.add(new THREE.Mesh(geom, material3), 153.340262, -27.842098 );
 
 
     const get = { m : 2 };
