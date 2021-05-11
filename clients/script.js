@@ -39,8 +39,8 @@ async function main() {
     // }
     const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
     const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 153.340386, -27.842083 );
-    arjs.add(new THREE.Mesh(geom, material3), 153.340252, -27.842112 );
+    arjs.add(new THREE.Mesh(geom, material2), 72.807939, 21.224977 );
+    arjs.add(new THREE.Mesh(geom, material3), 72.807918, 21.224532 );
 
 
     const get = { m : 2 };
