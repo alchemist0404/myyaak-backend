@@ -43,7 +43,7 @@ async function main() {
     arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
 
 
-    const get = { m : 2 };
+    const get = { m : 1 };
     // const parts = window.location.href.split('?');
 
     // if(parts.length==2) {
@@ -65,7 +65,7 @@ async function main() {
     if(get.m == 2) {
         arjs.startGps();
     } else {
-        arjs.fakeGps(-0.723, 51.049);
+        arjs.fakeGps(72.808052, 21.224677);
     }
 
     function render(time) {
