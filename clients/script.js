@@ -38,10 +38,10 @@ async function main() {
             arjs.add(mesh, longitude, latitude);
         })
     }
-    // const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
-    // const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    // arjs.add(new THREE.Mesh(geom, material2), 72.807859, 21.225122 );
-    // arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
+    const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    arjs.add(new THREE.Mesh(geom, material2), 72.807859, 21.225122 );
+    arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
 
 
     const get = { m : 2 };
