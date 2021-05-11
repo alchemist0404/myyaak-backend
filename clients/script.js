@@ -8,8 +8,6 @@ async function main() {
     const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector('#canvas1') });
 
     const geom = new THREE.BoxGeometry(20,20,20);
-    const material = new THREE.MeshBasicMaterial({color: 0xff0000});
-    const mesh = new THREE.Mesh(geom, material);
 
     const arjs = new Arjs.LocationBased(scene, camera);
     const cam = new Arjs.WebcamRenderer(renderer, '#video1');
@@ -28,20 +26,22 @@ async function main() {
     if (resultData.session) {
         window.location.href = "./not-authrized.html"
     }
-    alert(resultData.data.length)
-    // if (resultData.status == true) {
-    //     resultData.data.fotEach((place) => {
-    //         const { file_type } = place
-    //         const latitude = place.task_position.lat;
-    //         const longitude = place.task_position.lng;
+    if (resultData.status == true) {
+        resultData.data.fotEach((place) => {
+            const { file_type } = place
+            const latitude = place.task_position.lat;
+            const longitude = place.task_position.lng;
+            
+            const material = new THREE.MeshBasicMaterial({color: 0xff0000});
+            const mesh = new THREE.Mesh(geom, material);
 
-    //         arjs.add(mesh, longitude, latitude);
-    //     })
-    // }
-    const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
-    const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    arjs.add(new THREE.Mesh(geom, material2), 72.807859, 21.225122 );
-    arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
+            arjs.add(mesh, longitude, latitude);
+        })
+    }
+    // const material2 = new THREE.MeshBasicMaterial({color: 0x0000ff});
+    // const material3 = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    // arjs.add(new THREE.Mesh(geom, material2), 72.807859, 21.225122 );
+    // arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
 
 
     const get = { m : 2 };
