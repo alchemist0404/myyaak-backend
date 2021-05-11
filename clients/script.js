@@ -28,6 +28,7 @@ async function main() {
     if (resultData.session) {
         window.location.href = "./not-authrized.html"
     }
+    alert(resultData.data.length)
     // if (resultData.status == true) {
     //     resultData.data.fotEach((place) => {
     //         const { file_type } = place
@@ -43,7 +44,7 @@ async function main() {
     arjs.add(new THREE.Mesh(geom, material3), 72.807961, 21.224547 );
 
 
-    const get = { m : 1 };
+    const get = { m : 2 };
     // const parts = window.location.href.split('?');
 
     // if(parts.length==2) {
