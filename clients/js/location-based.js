@@ -24,7 +24,7 @@ class LocationBased {
                 alert(`GPS listen error: code ${error}`);
             }, {
                 enableHighAccuracy: true,
-                maximumAge: freq
+                // maximumAge: freq
             }
         );
     }
