@@ -10,27 +10,54 @@ const loadPlaces = async function(coords) {
     // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
     //const method = 'api';
 
-    const PLACES = [];
+    const PLACES = [
+        {
+            task_position: {
+                lat: -27.844156,
+                lng: 153.340525
+            },
+            task_name: "Task 1",
+            task_file: "1620981376821.png"
+        },
+        {
+            task_position: {
+                lat: -27.844014,
+                lng: 153.340198
+            },
+            task_name: "Task 2",
+            task_file: "1620981376821.png"
+        },
+        {
+            task_position: {
+                lat: -27.844218,
+                lng: 153.340971
+            },
+            task_name: "Task 3",
+            task_file: "1620981376821.png"
+        },
+    ];
 
-    const response = await fetch(`${serverURL}player/tasks/getTasks`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'User': JSON.stringify({token: { session_token }}),
-            'LogIn': JSON.stringify({username, password})
-        }
-    })
+    // const response = await fetch(`${serverURL}player/tasks/getTasks`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'User': JSON.stringify({token: { session_token }}),
+    //         'LogIn': JSON.stringify({username, password})
+    //     }
+    // })
 
-    const resultData = await response.json()
-    console.log(`resultData`, resultData)
-    if (resultData.session) {
-        window.location.href = "./not-authrized.html"
-    }
-    if (resultData.status == true) {
-        return Promise.resolve(resultData.data)
-    } else {
-        return Promise.resolve([])
-    }
+    // const resultData = await response.json()
+    // console.log(`resultData`, resultData)
+    // if (resultData.session) {
+    //     window.location.href = "./not-authrized.html"
+    // }
+    // if (resultData.status == true) {
+    //     return Promise.resolve(resultData.data)
+    // } else {
+    //     return Promise.resolve([])
+    // }
+
+    return Promise.resolve(PLACES)
 };
 
 
