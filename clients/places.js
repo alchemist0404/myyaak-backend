@@ -1,3 +1,5 @@
+const serverURL = "https://vr.myyaak.com/"
+
 const loadPlaces = function(coords) {
     // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
     //const method = 'api';
@@ -17,45 +19,57 @@ const loadPlaces = function(coords) {
   
 
     //if (method === 'api') {
-       // return loadPlaceFromAPIs(coords);
+    return loadPlaceFromAPIs(coords);
     //}
 
-    return Promise.resolve(PLACES);
+    // return Promise.resolve(PLACES);
 };
 
-/*
 // getting places from REST APIs
 function loadPlaceFromAPIs(position) {
-    const params = {
-        radius: 300,    // search places not farther than this value (in meters)
-        clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',
-        clientSecret: '',
-        version: '20300101',    // foursquare versioning, required but unuseful for this demo
-    };
+    // const params = {
+    //     radius: 300,    // search places not farther than this value (in meters)
+    //     clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',
+    //     clientSecret: '',
+    //     version: '20300101',    // foursquare versioning, required but unuseful for this demo
+    // };
 
-    // CORS Proxy to avoid CORS problems
-    const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+    // // CORS Proxy to avoid CORS problems
+    // const corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
-    // Foursquare API
-    const endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
-        &ll=${position.latitude},${position.longitude}
-        &radius=${params.radius}
-        &client_id=${params.clientId}
-        &client_secret=${params.clientSecret}
-        &limit=15
-        &v=${params.version}`;
-    return fetch(endpoint)
-        .then((res) => {
-            return res.json()
-                .then((resp) => {
-                    return resp.response.venues;
-                })
-        })
-        .catch((err) => {
-            console.error('Error with places API', err);
-        })
+    // // Foursquare API
+    // const endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
+    //     &ll=${position.latitude},${position.longitude}
+    //     &radius=${params.radius}
+    //     &client_id=${params.clientId}
+    //     &client_secret=${params.clientSecret}
+    //     &limit=15
+    //     &v=${params.version}`;
+    return fetch(`${serverURL}player/tasks/getTasks`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'User': JSON.stringify({token: { session_token }}),
+            'LogIn': JSON.stringify({username, password})
+        }
+    }).then((res) => {
+        return res.json()
+            .then((resp) => {
+                if (resp.session == true) {
+                    window.location.href = "./not-authrized.html"
+                }
+                if (resp.status == true) {
+                    return resp.data
+                } else {
+                    return []
+                }
+            })
+    })
+    .catch((err) => {
+        console.error('Error with places API', err);
+    })
 };
-*/
+
 let latitude;
 let longitude;
 
@@ -73,22 +87,23 @@ window.onload = () => {
       
         loadPlaces(position.coords)
             .then((places) => {
+                console.log(`places`, places)
                 places.forEach((place) => {
-                    
+                    const { file_type } = place
                     if(ler){
-                        latitude = place.location.lat;
-                        longitude = place.location.lng;
+                        latitude = place.task_position.lat;
+                        longitude = place.task_position.lng;
                     }
                     // add place icon
                     const icon = document.createElement('a-image');
                     icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    icon.setAttribute('name', place.name);
+                    icon.setAttribute('name', place.task_name);
                     //icon.setAttribute('src', '../assets/map-marker.png');
-                    icon.setAttribute('src', place.img);
-                    icon.setAttribute("look-at","[camera]");
+                    icon.setAttribute('src', `${serverURL}${place.task_file}`);
+                    icon.setAttribute("look-at", "[camera]");
 
                     // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
-                    icon.setAttribute('scale', '20, 20');
+                    icon.setAttribute('scale', '10, 10');
 
                     icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
 
@@ -123,7 +138,7 @@ window.onload = () => {
                             
                     let text = document.createElement('a-text');
                     text.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    text.setAttribute('value', place.name);
+                    text.setAttribute('value', place.task_name);
                     //text.setAttribute('href', 'http://www.example.com/');
                     text.setAttribute('width', '200');
                     text.setAttribute('height', '200');
