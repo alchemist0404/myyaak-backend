@@ -6,8 +6,8 @@ const loadPlaces = function(coords) {
         {
             name: "MAZA BAR",
             location: {
-                lat: -30.062171, // add here latitude if using static data
-                lng: -51.174544, // add here longitude if using static data
+                lat: -27.843834, // add here latitude if using static data
+                lng: 153.340407, // add here longitude if using static data
             },
             img: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
             
@@ -76,8 +76,8 @@ window.onload = () => {
                 places.forEach((place) => {
                     
                     if(ler){
-                    latitude = place.location.lat;
-                    longitude = place.location.lng;
+                        latitude = place.location.lat;
+                        longitude = place.location.lng;
                     }
                     // add place icon
                     const icon = document.createElement('a-image');
