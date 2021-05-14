@@ -27,10 +27,10 @@ const loadPlaces = async function(coords) {
         window.location.href = "./not-authrized.html"
     }
     if (resultData.status == true) {
-        PLACES = resultData.data
+        return Promise.resolve(resultData.data)
+    } else {
+        return Promise.resolve([])
     }
-
-    return Promise.resolve(PLACES);
 };
 
 
