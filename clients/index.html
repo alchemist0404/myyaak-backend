@@ -9,16 +9,6 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
     <link rel="stylesheet" href="./style.css">
   </head>
-  <script>
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const session_token = urlParams.get("session_token")
-    const username = urlParams.get("username")
-    const password = urlParams.get("password")
-    if (session_token == null || username == null || password == null) {
-        window.location.href = "./not-authrized.html"
-    }
-  </script>
   <script src="./places.js"></script>
   <body style="margin: 0; overflow: hidden;">
     <a-scene
