@@ -1,66 +1,61 @@
-const serverURL = "https://vr.myyaak.com/"
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const session_token = urlParams.get("session_token")
-const username = urlParams.get("username")
-const password = urlParams.get("password")
-
-const loadPlaces = async function(coords) {
+const loadPlaces = function(coords) {
     // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
     //const method = 'api';
 
     const PLACES = [
         {
-            task_position: {
-                lat: -27.844156,
-                lng: 153.340525
+            name: "Task 1",
+            location: {
+                lat: -27.843834, // add here latitude if using static data
+                lng: 153.340407, // add here longitude if using static data
             },
-            task_name: "Task 1",
-            task_file: "1620981376821.png"
+            img: "https://vr.myyaak.com/1620981376821.png",
+            
         },
-        {
-            task_position: {
-                lat: -27.844014,
-                lng: 153.340198
-            },
-            task_name: "Task 2",
-            task_file: "1620981376821.png"
-        },
-        {
-            task_position: {
-                lat: -27.844218,
-                lng: 153.340971
-            },
-            task_name: "Task 3",
-            task_file: "1620981376821.png"
-        },
+
     ];
+  
 
-    // const response = await fetch(`${serverURL}player/tasks/getTasks`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'User': JSON.stringify({token: { session_token }}),
-    //         'LogIn': JSON.stringify({username, password})
-    //     }
-    // })
+    //if (method === 'api') {
+       // return loadPlaceFromAPIs(coords);
+    //}
 
-    // const resultData = await response.json()
-    // console.log(`resultData`, resultData)
-    // if (resultData.session) {
-    //     window.location.href = "./not-authrized.html"
-    // }
-    // if (resultData.status == true) {
-    //     return Promise.resolve(resultData.data)
-    // } else {
-    //     return Promise.resolve([])
-    // }
-
-    return Promise.resolve(PLACES)
+    return Promise.resolve(PLACES);
 };
 
+/*
+// getting places from REST APIs
+function loadPlaceFromAPIs(position) {
+    const params = {
+        radius: 300,    // search places not farther than this value (in meters)
+        clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',
+        clientSecret: '',
+        version: '20300101',    // foursquare versioning, required but unuseful for this demo
+    };
 
+    // CORS Proxy to avoid CORS problems
+    const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+
+    // Foursquare API
+    const endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
+        &ll=${position.latitude},${position.longitude}
+        &radius=${params.radius}
+        &client_id=${params.clientId}
+        &client_secret=${params.clientSecret}
+        &limit=15
+        &v=${params.version}`;
+    return fetch(endpoint)
+        .then((res) => {
+            return res.json()
+                .then((resp) => {
+                    return resp.response.venues;
+                })
+        })
+        .catch((err) => {
+            console.error('Error with places API', err);
+        })
+};
+*/
 let latitude;
 let longitude;
 
@@ -81,15 +76,15 @@ window.onload = () => {
                 places.forEach((place) => {
                     
                     if(ler){
-                        latitude = place.task_position.lat;
-                        longitude = place.task_position.lng;
+                        latitude = place.location.lat;
+                        longitude = place.location.lng;
                     }
                     // add place icon
                     const icon = document.createElement('a-image');
                     icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    icon.setAttribute('name', place.task_name);
+                    icon.setAttribute('name', place.name);
                     //icon.setAttribute('src', '../assets/map-marker.png');
-                    icon.setAttribute('src', `${serverURL}${place.task_file}`);
+                    icon.setAttribute('src', place.img);
                     icon.setAttribute("look-at","[camera]");
 
                     // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
@@ -128,7 +123,7 @@ window.onload = () => {
                             
                     let text = document.createElement('a-text');
                     text.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    text.setAttribute('value', place.task_name);
+                    text.setAttribute('value', place.name);
                     //text.setAttribute('href', 'http://www.example.com/');
                     text.setAttribute('width', '200');
                     text.setAttribute('height', '200');
