@@ -1,17 +1,15 @@
-const serverURL = "https://vr.myyaak.com/"
-
 const loadPlaces = function(coords) {
     // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
     //const method = 'api';
 
     const PLACES = [
         {
-            task_name: "MAZA BAR",
-            task_position: {
+            name: "MAZA BAR",
+            location: {
                 lat: -27.843834, // add here latitude if using static data
                 lng: 153.340407, // add here longitude if using static data
             },
-            task_file: "1620981376821.png",
+            img: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
             
         },
 
@@ -78,16 +76,16 @@ window.onload = () => {
                 places.forEach((place) => {
                     
                     if(ler){
-                        latitude = place.task_position.lat;
-                        longitude = place.task_position.lng;
+                        latitude = place.location.lat;
+                        longitude = place.location.lng;
                     }
                     // add place icon
                     const icon = document.createElement('a-image');
                     icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    icon.setAttribute('name', place.task_name);
+                    icon.setAttribute('name', place.name);
                     //icon.setAttribute('src', '../assets/map-marker.png');
-                    icon.setAttribute('src', `${serverURL}${place.task_file}`);
-                    icon.setAttribute("look-at", "[camera]");
+                    icon.setAttribute('src', place.img);
+                    icon.setAttribute("look-at","[camera]");
 
                     // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
                     icon.setAttribute('scale', '20, 20');
@@ -125,7 +123,7 @@ window.onload = () => {
                             
                     let text = document.createElement('a-text');
                     text.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    text.setAttribute('value', place.task_name);
+                    text.setAttribute('value', place.name);
                     //text.setAttribute('href', 'http://www.example.com/');
                     text.setAttribute('width', '200');
                     text.setAttribute('height', '200');
