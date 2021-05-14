@@ -1,34 +1,13 @@
-.info {
-    font-size: large;
-    position: absolute;
-    width: 100%;
-    padding-top: calc(12px + env(safe-area-inset-top));
-    padding-bottom: 12px;
-    background-color: #BBBBBB;
-    text-align: center;
-    top: 0;
-    left: 0;
-    opacity: 0.7;
-    display: table;
-}
+/* CSS files add styling rules to your content */
 
-#infoBox {
-    display: none;
-}
-
-#infoBox .text {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: right;
-    width: 50%;
-}
-
-#infoBox .icons {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: left;
-}
-
-#infoBox .icons img {
-    margin-left: 15px;
-}
+body {
+    font-family: helvetica, arial, sans-serif;
+    margin: 2em;
+  }
+  
+  h1 {
+    font-style: italic;
+    color: #373fff;
+  }
+  
+  

@@ -1,137 +1,169 @@
-// const serverURL = "http://localhost:20127/"
-const serverURL = "https://vr.myyaak.com/"
+const loadPlaces = function(coords) {
+    // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
+    //const method = 'api';
 
-window.onload = async () => {
-    let places = await loadPlaces();
-    renderPlaces(places);
+    const PLACES = [
+        {
+            name: "MAZA BAR",
+            location: {
+                lat: -27.843834, // add here latitude if using static data
+                lng: 153.340407, // add here longitude if using static data
+            },
+            img: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
+            
+        },
+
+    ];
+  
+
+    //if (method === 'api') {
+       // return loadPlaceFromAPIs(coords);
+    //}
+
+    return Promise.resolve(PLACES);
 };
 
-async function loadPlaces() {
-    const response = await fetch(`${serverURL}player/tasks/getTasks`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'User': JSON.stringify({token: { session_token }}),
-            'LogIn': JSON.stringify({username, password})
-        }
-    })
-    const resultData = await response.json()
-    if (resultData.session) {
-        window.location.href = "./not-authrized.html"
-    }
-    if (resultData.status == true) {
-        return resultData.data
-    } else {
-        return []
-    }
-}
+/*
+// getting places from REST APIs
+function loadPlaceFromAPIs(position) {
+    const params = {
+        radius: 300,    // search places not farther than this value (in meters)
+        clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',
+        clientSecret: '',
+        version: '20300101',    // foursquare versioning, required but unuseful for this demo
+    };
 
-function renderPlaces(places) {
+    // CORS Proxy to avoid CORS problems
+    const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+
+    // Foursquare API
+    const endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
+        &ll=${position.latitude},${position.longitude}
+        &radius=${params.radius}
+        &client_id=${params.clientId}
+        &client_secret=${params.clientSecret}
+        &limit=15
+        &v=${params.version}`;
+    return fetch(endpoint)
+        .then((res) => {
+            return res.json()
+                .then((resp) => {
+                    return resp.response.venues;
+                })
+        })
+        .catch((err) => {
+            console.error('Error with places API', err);
+        })
+};
+*/
+let latitude;
+let longitude;
+
+var ler = true;
+
+
+
+window.onload = () => {
     const scene = document.querySelector('a-scene');
-    console.log(`places`, places)
 
-    places.forEach((place) => {
-        const { file_type } = place
-        const latitude = place.task_position.lat;
-        const longitude = place.task_position.lng;
+    // first get current user location
+    return navigator.geolocation.getCurrentPosition(function (position) {
 
-        if (file_type == "image") {
-            // const asset = document.createElement('a-assets');
-            // asset.setAttribute('look-at', `[gps-camera]`)
-            // asset.setAttribute('scale', `0.5 0.5 0.5`)
-            // asset.setAttribute('position', `0 20.1 0`)
-            // asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-            
-            // const image = document.createElement('img');
-            // image.setAttribute('src', `${serverURL}${place.task_file}`)
-            // image.setAttribute('crossorigin', 'anonymous')
-            // image.addEventListener('click', ()=> {
-            //     alert('Congratulations!')
-            // })
-    
-            // asset.appendChild(image)
-            // scene.appendChild(asset);
-            const icon = document.createElement("a-image");
-            icon.setAttribute('src', `${serverURL}${place.task_file}`)
-            icon.setAttribute('look-at', `[gps-camera]`)
-            icon.setAttribute('scale', `1 1 1`)
-            // icon.setAttribute('position', `0 20.1 0`)
-            icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-            icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
-            icon.addEventListener('click', () => {
-                alert("You found a logo!")
-            });
+        // then use it to load from remote APIs some places nearby
+      
+        loadPlaces(position.coords)
+            .then((places) => {
+                places.forEach((place) => {
+                    
+                    if(ler){
+                        latitude = place.location.lat;
+                        longitude = place.location.lng;
+                    }
+                    // add place icon
+                    const icon = document.createElement('a-image');
+                    icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+                    icon.setAttribute('name', place.name);
+                    //icon.setAttribute('src', '../assets/map-marker.png');
+                    icon.setAttribute('src', place.img);
+                    icon.setAttribute("look-at","[camera]");
 
-            scene.appendChild(icon);
+                    // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
+                    icon.setAttribute('scale', '20, 20');
+
+                    icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+
+                    const clickListener = function(ev) {
+                        ev.stopPropagation();
+                        ev.preventDefault();
+
+                        const name = ev.target.getAttribute('name');
+
+                        const el = ev.detail.intersection && ev.detail.intersection.object.el;
+
+                        if (el && el === ev.target) {
+                            const label = document.createElement('span');
+                            const container = document.createElement('div');
+                            container.setAttribute('id', 'place-label');
+                            label.innerText = name;
+                            container.appendChild(label);
+                            document.body.appendChild(container);
+
+                            setTimeout(() => {
+                                container.parentElement.removeChild(container);
+                            }, 1500);
+                        }
+                    };
+
+                    //icon.addEventListener('click', clickListener);
+                    
+                    scene.appendChild(icon);
+                  
+                  
+                    // add place name
+                            
+                    let text = document.createElement('a-text');
+                    text.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+                    text.setAttribute('value', place.name);
+                    //text.setAttribute('href', 'http://www.example.com/');
+                    text.setAttribute('width', '200');
+                    text.setAttribute('height', '200');
+                    
+                    text.setAttribute("look-at","[camera]");
+                    text.addEventListener('loaded', () => {
+                        window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
+                    });
+
+                    scene.appendChild(text);
+                  
+               
+                  
+                  
+                  
+                  
+                });
+            })
+    },
+        (err) => console.error('Error in retrieving position', err),
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 27000,
         }
-        // if (file_type == "video") {
-        //     var asset = document.createElement('a-assets');
-        //     asset.setAttribute('timeout', "10000")
-        //     asset.setAttribute('id', place._id)
-        //     asset.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-        //     asset.addEventListener('loadeddata', ()=>{
-        //         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        //     })
-            
-        //     var image = document.createElement('video');
-        //     image.setAttribute('src', `${serverURL}${place.task_file}`)
-        //     image.setAttribute('crossorigin', 'anonymous')
-        //     image.setAttribute('autoplay', '')
-        //     image.setAttribute('loop', 'true')
-        //     image.addEventListener('click', ()=> {
-        //         alert('Congratulations!')
-        //     })
+    );
+};
+
+
+
+document.addEventListener("touchend", myFunction);
+
+function myFunction() {
+  return navigator.geolocation.getCurrentPosition(function (position) {
     
-        //     asset.appendChild(image)
-        //     scene.appendChild(asset);
-        // }
-        // if (file_type == "dae") {
-        //     var entity = document.createElement("a-entity")
-        //     entity.setAttribute('id', place._id)
-        //     entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-        //     entity.addEventListener('loadeddata', ()=>{
-        //         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        //     })
-            
-        //     entity.setAttribute('collada-model', `url(${serverURL}${place.task_file})`)
+    latitude = position.coords["latitude"];
+    longitude = position.coords['longitude'];
 
-        //     scene.appendChild(entity)
-        // }
-        // if (file_type == "fbx") {
-        //     var entity = document.createElement("a-entity")
-        //     entity.setAttribute('id', place._id)
-        //     entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-        //     entity.addEventListener('loadeddata', ()=>{
-        //         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        //     })
-            
-        //     entity.setAttribute('fbx-model', `src: url(${serverURL}${place.task_file})`)
-
-        //     scene.appendChild(entity)
-        // }
-        // if (file_type == "obj") {
-        //     var entity = document.createElement("a-entity")
-        //     entity.setAttribute('id', place._id)
-        //     entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-        //     entity.addEventListener('loadeddata', ()=>{
-        //         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        //     })
-            
-        //     entity.setAttribute('obj-model', `obj: url(${serverURL}${place.task_file});`)
-
-        //     scene.appendChild(entity)
-        // }
-        // if (file_type == "gltf") {
-        //     var entity = document.createElement("a-entity")
-        //     entity.setAttribute('id', place._id)
-        //     entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`)
-        //     entity.addEventListener('loadeddata', ()=>{
-        //         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-        //     })
-            
-        //     entity.setAttribute('gltf-model', `url(${serverURL}${place.task_file})`)
-
-        //     scene.appendChild(entity)
-        // }
-    });
-}
+    ler =false;
+    
+  });
+  
+} 
