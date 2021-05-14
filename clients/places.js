@@ -4,12 +4,12 @@ const loadPlaces = function(coords) {
 
     const PLACES = [
         {
-            name: "MAZA BAR",
-            location: {
+            task_name: "MAZA BAR",
+            task_position: {
                 lat: -27.843834, // add here latitude if using static data
                 lng: 153.340407, // add here longitude if using static data
             },
-            img: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
+            task_file: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
             
         },
 
@@ -76,16 +76,16 @@ window.onload = () => {
                 places.forEach((place) => {
                     
                     if(ler){
-                        latitude = place.location.lat;
-                        longitude = place.location.lng;
+                        latitude = place.task_position.lat;
+                        longitude = place.task_position.lng;
                     }
                     // add place icon
                     const icon = document.createElement('a-image');
                     icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    icon.setAttribute('name', place.name);
+                    icon.setAttribute('name', place.task_name);
                     //icon.setAttribute('src', '../assets/map-marker.png');
-                    icon.setAttribute('src', place.img);
-                    icon.setAttribute("look-at","[camera]");
+                    icon.setAttribute('src', `${serverURL}${place.task_file}`);
+                    icon.setAttribute("look-at", "[camera]");
 
                     // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
                     icon.setAttribute('scale', '20, 20');
@@ -123,7 +123,7 @@ window.onload = () => {
                             
                     let text = document.createElement('a-text');
                     text.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-                    text.setAttribute('value', place.name);
+                    text.setAttribute('value', place.task_name);
                     //text.setAttribute('href', 'http://www.example.com/');
                     text.setAttribute('width', '200');
                     text.setAttribute('height', '200');
