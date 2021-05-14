@@ -6,7 +6,7 @@ const session_token = urlParams.get("session_token")
 const username = urlParams.get("username")
 const password = urlParams.get("password")
 
-const loadPlaces = function(coords) {
+const loadPlaces = async function(coords) {
     // COMMENT FOLLOWING LINE IF YOU WANT TO USE STATIC DATA AND ADD COORDINATES IN THE FOLLOWING 'PLACES' ARRAY
     //const method = 'api';
 
