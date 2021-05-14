@@ -4,12 +4,12 @@ const loadPlaces = function(coords) {
 
     const PLACES = [
         {
-            name: "Task 1",
+            name: "MAZA BAR",
             location: {
                 lat: -27.843834, // add here latitude if using static data
                 lng: 153.340407, // add here longitude if using static data
             },
-            img: "https://vr.myyaak.com/1620981376821.png",
+            img: "https://cdn.glitch.com/3aae3d53-f072-40dc-8f63-7cb561c70c89%2F02.jpg?v=1578314395239",
             
         },
 
