@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>myyaak</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <style>
+        html, body { height: 100%; }
+    </style>
+</head>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const session_token = urlParams.get("session_token")
+    const username = urlParams.get("username")
+    const password = urlParams.get("password")
+    if (session_token == null || username == null || password == null) {
+        window.location.href = "./not-authrized.html"
+    }
+</script>
+<script type='module' src='./script.js'></script>
+
+<body>
+    <video id='video1' autoplay style='display:none'></video>
+    <canvas id="canvas1" style='background-color: white; width:100%; height:100%; display:block'></canvas>
+</body>
+</html>
