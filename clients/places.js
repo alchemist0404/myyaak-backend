@@ -6,8 +6,8 @@ const loadPlaces = function(coords) {
         {
             name: "Task 1",
             location: {
-                lat: -27.843834, // add here latitude if using static data
-                lng: 153.340407, // add here longitude if using static data
+                lat: -27.842074, // add here latitude if using static data
+                lng: 153.340462, // add here longitude if using static data
             },
             img: "https://vr.myyaak.com/1620981376821.png",
             
