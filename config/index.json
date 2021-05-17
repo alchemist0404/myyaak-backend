@@ -1,3 +1,7 @@
 {
-  "BASE_URL": "https://myyaak.com/restful_api/"
+  "BASE_URL": "https://myyaak.com/restful_api/",
+  "paymentReturnURL": "https://vr.myyaak.com/payment/success",
+  "paymentCancelURL": "https://vr.myyaak.com/payment/error",
+  "paypalClientID": "AVD5TKWVuoF9pMwLJxmldz0CITx7Hqm9PSDJp9FJCYPRiNSxjAzs4xHcHYExHd2XfnJLbKV5Fom0UjPz",
+  "paypalClientSecret": "EEJEdG0PDXSAhgR4MUTtwoiqu1CoHsu8Kav0Mff0ZDcoD3PfUpYWrYJyVnSRI6cKZxwSLlvhJQag5hXl"
 }
