@@ -8,6 +8,7 @@ const stripe = require('stripe')(stripeSecret);
 
 exports.depositWithPaypal = async (req, res, next) => {
     const paymentInfo = req.body;
+    const { username } = JSON.parse(req.headers.login)
     const paypalDetail = {
         "intent": "sale",
         "payer": {
@@ -62,7 +63,7 @@ exports.depositWithPaypal = async (req, res, next) => {
         
         axios(config)
         .then(async function (response) {
-            var sdata = await baseController.data_save({payment_id: response.data.id, amount: paymentInfo.amount, status: "pending", type: "deposit", method: "Paypal", currency: "AUD"}, PAYMENT_MODEL)
+            var sdata = await baseController.data_save({payment_id: response.data.id, user_id: username, amount: paymentInfo.amount, status: "pending", type: "deposit", method: "Paypal", currency: "AUD"}, PAYMENT_MODEL)
             if (sdata) {
                 return res.json({
                     status: true,
@@ -106,6 +107,7 @@ exports.paymentUpdate = async (req, res, next) => {
 }
 
 exports.stripCardCreateSetupIntent = async (req, res, next) => {
+    const { username } = JSON.parse(req.headers.login)
     const { amount } = req.body
     const customer = await stripe.customers.create();
 
@@ -116,7 +118,7 @@ exports.stripCardCreateSetupIntent = async (req, res, next) => {
     });
     console.log(`paymentIntent`, paymentIntent)
     const clientSecret = paymentIntent.client_secret;
-    var sdata = await baseController.data_save({payment_id: paymentIntent.id, amount, status: "pending", type: "deposit", method: "Credit Card", currency: "AUD"}, PAYMENT_MODEL)
+    var sdata = await baseController.data_save({payment_id: paymentIntent.id, user_id: username, amount, status: "pending", type: "deposit", method: "Credit Card", currency: "AUD"}, PAYMENT_MODEL)
     if (sdata) {
         return res.json({
             status: true,
@@ -127,6 +129,22 @@ exports.stripCardCreateSetupIntent = async (req, res, next) => {
         return res.json({
             status: false,
             data: "Server Error! Please try again later."
+        })
+    }
+}
+
+exports.loadPaymentHistory = async (req, res, next) => {
+    const { username } = JSON.parse(req.headers.login)
+    var data = await baseController.Bfind(PAYMENT_MODEL, { user_id: username })
+    if (data) {
+        return res.json({
+            status: true,
+            data
+        })
+    } else {
+        return res.json({
+            status: false,
+            data: "Server Error! Please try again."
         })
     }
 }
