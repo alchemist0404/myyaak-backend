@@ -1,10 +1,10 @@
-const { paymentReturnURL, paymentCancelURL, paypalClientID, paypalClientSecret } = require("../config/index.json")
+const { paymentReturnURL, paymentCancelURL, paypalClientID, paypalClientSecret, stripeSecret } = require("../config/index.json")
 const qs = require('qs');
 const axios = require('axios');
 const baseController = require("./basecontroller")
 const PAYMENT_MODEL = require("../models/payment_model").payments
 const { base64encode } = require('nodejs-base64');
-const stripe = require('stripe')('sk_test_51IrK9nAavRalA46LdAIGTiJDxyNlk310TVYM78czWT6PMTXRgBo437ggnr2UY7K8lJ22Od5IHbXJXUn6XQzdbHCv00idp2aCws');
+const stripe = require('stripe')(stripeSecret);
 
 exports.depositWithPaypal = async (req, res, next) => {
     const paymentInfo = req.body;
@@ -91,10 +91,8 @@ exports.depositWithPaypal = async (req, res, next) => {
 exports.paymentUpdate = async (req, res, next) => {
     console.log(`req.body`, req.body)
     const { payment_id, status } = req.body
-    if (status == 'approved') {
-        console.log("Payment is approved!")
-    }
     var udata = await baseController.BfindOneAndUpdate(PAYMENT_MODEL, { payment_id }, { status })
+    console.log(`udata`, udata)
     if (udata) {
         return res.json({
             status: true
@@ -107,6 +105,28 @@ exports.paymentUpdate = async (req, res, next) => {
     }
 }
 
-exports.stripCardCreateSession = async (req, res, next) => {
-    
+exports.stripCardCreateSetupIntent = async (req, res, next) => {
+    const { amount } = req.body
+    const customer = await stripe.customers.create();
+
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount,
+        currency: 'aud',
+        customer: customer.id
+    });
+    console.log(`paymentIntent`, paymentIntent)
+    const clientSecret = paymentIntent.client_secret;
+    var sdata = await baseController.data_save({payment_id: paymentIntent.id, amount, status: "pending", type: "deposit", method: "Credit Card", currency: "AUD"}, PAYMENT_MODEL)
+    if (sdata) {
+        return res.json({
+            status: true,
+            data: clientSecret,
+            paymentId: paymentIntent.id
+        })
+    } else {
+        return res.json({
+            status: false,
+            data: "Server Error! Please try again later."
+        })
+    }
 }

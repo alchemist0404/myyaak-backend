@@ -3,5 +3,6 @@
   "paymentReturnURL": "https://vr.myyaak.com/payment/success",
   "paymentCancelURL": "https://vr.myyaak.com/payment/error",
   "paypalClientID": "AVD5TKWVuoF9pMwLJxmldz0CITx7Hqm9PSDJp9FJCYPRiNSxjAzs4xHcHYExHd2XfnJLbKV5Fom0UjPz",
-  "paypalClientSecret": "EEJEdG0PDXSAhgR4MUTtwoiqu1CoHsu8Kav0Mff0ZDcoD3PfUpYWrYJyVnSRI6cKZxwSLlvhJQag5hXl"
+  "paypalClientSecret": "EEJEdG0PDXSAhgR4MUTtwoiqu1CoHsu8Kav0Mff0ZDcoD3PfUpYWrYJyVnSRI6cKZxwSLlvhJQag5hXl",
+  "stripeSecret": "sk_test_51IrK9nAavRalA46LdAIGTiJDxyNlk310TVYM78czWT6PMTXRgBo437ggnr2UY7K8lJ22Od5IHbXJXUn6XQzdbHCv00idp2aCws"
 }
