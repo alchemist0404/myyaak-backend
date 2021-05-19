@@ -2,7 +2,8 @@ const BASECONTROLLER = require("./basecontroller")
 const axios = require("axios")
 const md5 = require("md5")
 const SESSION_MODEL = require("../models/users_model").userSession
-const USER_MODEL = require("../models/users_model").adminUser
+const ADMIN_USER_MODEL = require("../models/users_model").adminUser
+const USER_MODEL = require("../models/users_model").userPlayers
 const { BASE_URL } = require("../config/index.json")
 
 exports.login = async (req, res, next) => {
@@ -21,34 +22,36 @@ exports.login = async (req, res, next) => {
     .then(async (response) => {
         var token = md5(Date.now())
 
+        var fdata = BASECONTROLLER.BfindOne(USER_MODEL, { username: req.body.username })
+        if (!fdata) {
+            BASECONTROLLER.data_save({username: req.body.username}, USER_MODEL)
+        }
+
         var sdata = await BASECONTROLLER.data_save({token, apiToken: response.data, updatedAt: Date.now()}, SESSION_MODEL)
         if (sdata) {
-            res.json({
+            return res.json({
                 status: true,
                 data: {
                     session_token: token
                 }
             })
-            return next()
         } else {
-            res.json({
+            return res.json({
                 status: false,
                 data: "Server Error! Please try again later."
             })
         }
     }).catch(error => {
-        res.json({
+        return res.json({
             status: false,
             data: error.response.data.error_description
         })
-        return next()
     })
 }
-// paul.napper09@gmail.com
-// shy8cozy
 
 exports.getUserData = async (req, res, next) => {
     const { token } = JSON.parse(req.headers.user)
+    const { username } = JSON.parse(req.headers.login);
     const { apiToken } = await BASECONTROLLER.BfindOne(SESSION_MODEL, { token: token.session_token })
     axios({
         url: `${BASE_URL}user/mine`,
@@ -58,6 +61,7 @@ exports.getUserData = async (req, res, next) => {
             "Authorization": "Bearer " + apiToken.access_token
         }
     }).then(async (response) => {
+        BASECONTROLLER.BfindOneAndUpdate(USER_MODEL, {username}, {fullName: response.data.data.full_name})
         res.json({
             status: true,
             data: response.data
@@ -74,7 +78,7 @@ exports.getUserData = async (req, res, next) => {
 
 exports.adminLogin = async (req, res, next) => {
     const { email, password } = req.body
-    const vdata = await BASECONTROLLER.BfindOne(USER_MODEL, { email, password: md5(password) })
+    const vdata = await BASECONTROLLER.BfindOne(ADMIN_USER_MODEL, { email, password: md5(password) })
     if (vdata) {
         var token = md5(Date.now())
         const tdata = await BASECONTROLLER.data_save({token, apiToken: {}, updatedAt: Date.now()}, SESSION_MODEL)
@@ -133,4 +137,19 @@ exports.updateUserData = async (req, res, next) => {
         })
     }
     // next()
+}
+
+exports.getAllUsers = async (req, res, next) => {
+    var data = await BASECONTROLLER.Bfind(USER_MODEL, {})
+    if (data) {
+        return res.json({
+            status: true,
+            data
+        })
+    } else {
+        return res.json({
+            status: false,
+            data: "Server Error! Please try again later."
+        })
+    }
 }

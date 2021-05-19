@@ -49,6 +49,19 @@ const users = () =>{
     // return mongoose.model("user1", UserSchema)
 }
 
+const userPlayers = () => {
+    var UserSchema = new Schema({
+        username: { type: String, required: true },
+        fullName: { type: Object, default: "" },
+        collectedLogos: { type: Number, default: 0 },
+        balance: { type: Number, default: 0 },
+        points: { type: Number, default: 0 },
+        createdAt: { type: Date, default: Date.now() },
+    })
+
+    return mongoose.model("user_players", UserSchema)
+}
+
 const userSession = () => {
     var UserSchema = new Schema({
         token: { type: String, required: true },
@@ -67,5 +80,6 @@ function get_max_id (){
 
 module.exports = {
     adminUser : users(),
-    userSession : userSession()
+    userSession : userSession(),
+    userPlayers: userPlayers()
 }
