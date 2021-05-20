@@ -43,6 +43,7 @@ function setPos(position) {
     box2.setAttribute('material', {
         color: 'yellow'
     });
+    box.setAttribute("look-at", "[camera]")
     box2.setAttribute('gps-entity-place', {
         latitude: latitude+0.0004,
         longitude: longitude-0.0001
