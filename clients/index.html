@@ -16,7 +16,12 @@
       embedded
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
-      <a-camera gps-camera rotation-reader> </a-camera>
+      <a-camera
+        gps-camera="gpsMinDistance: 1; maxDistance: 5"
+        look-controls-enabled="false"
+        arjs-look-controls="smoothingFactor: 0.1"
+        rotation-reader
+      ></a-camera>
     </a-scene>
   </body>
 </html>
