@@ -19,7 +19,7 @@ function error() {
 function setPos(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    alert(latitude + ", " + longitude)
+    alert("Your location is : " + latitude + ", " + longitude)
     const box = document.createElement("a-box");
     box.setAttribute('scale', {
         x: 10, 
