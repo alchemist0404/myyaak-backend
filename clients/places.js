@@ -51,4 +51,7 @@ function setPos(position) {
     const sceneEl = document.querySelector("a-scene");
     sceneEl.appendChild(box);
     sceneEl.appendChild(box2);
+
+    const distanceMsg = document.querySelector('[gps-entity-place]').getAttribute('distanceMsg');
+    alert(distanceMsg)
 }
