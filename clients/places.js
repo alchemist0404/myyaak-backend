@@ -31,8 +31,10 @@ function setPos(position) {
     });
     box.setAttribute("look-at", "[camera]")
     box.setAttribute('gps-entity-place', {
-        latitude: -27.842117,
-        longitude: 153.340257
+        latitude: latitude+0.0006,
+        longitude: longitude-0.0005
+        // latitude: -27.842117,
+        // longitude: 153.340257
     });
     const box2 = document.createElement("a-box");
     box2.setAttribute('scale', {
@@ -45,8 +47,10 @@ function setPos(position) {
     });
     box.setAttribute("look-at", "[camera]")
     box2.setAttribute('gps-entity-place', {
-        latitude: -27.842188,
-        longitude: 153.339849
+        latitude: latitude+0.0004,
+        longitude: longitude-0.0001
+        // latitude: -27.842188,
+        // longitude: 153.339849
     });
     const sceneEl = document.querySelector("a-scene");
     sceneEl.appendChild(box);
